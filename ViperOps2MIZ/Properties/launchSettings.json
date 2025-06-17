@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ViperOps2MIZ (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "ViperOps2MIZ (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

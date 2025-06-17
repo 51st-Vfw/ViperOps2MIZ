@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35919.96 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViperOps2MIZ", "ViperOps2MIZ\ViperOps2MIZ.csproj", "{603DDB94-1AA0-4F9B-A0E8-C9A566B6F059}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ViperOps2MIZ Installer", "ViperOps2MIZ Installer\ViperOps2MIZ Installer.vdproj", "{AFAAD901-CA20-645E-C457-CC0440CF10A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM64 = Debug|ARM64
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|ARM64 = Release|ARM64
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{603DDB94-1AA0-4F9B-A0E8-C9A566B6F059}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{603DDB94-1AA0-4F9B-A0E8-C9A566B6F059}.Debug|ARM64.Build.0 = Debug|ARM64
+		{603DDB94-1AA0-4F9B-A0E8-C9A566B6F059}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{603DDB94-1AA0-4F9B-A0E8-C9A566B6F059}.Debug|x64.ActiveCfg = Debug|x64
+		{603DDB94-1AA0-4F9B-A0E8-C9A566B6F059}.Debug|x64.Build.0 = Debug|x64
+		{603DDB94-1AA0-4F9B-A0E8-C9A566B6F059}.Debug|x64.Deploy.0 = Debug|x64
+		{603DDB94-1AA0-4F9B-A0E8-C9A566B6F059}.Debug|x86.ActiveCfg = Debug|x86
+		{603DDB94-1AA0-4F9B-A0E8-C9A566B6F059}.Debug|x86.Build.0 = Debug|x86
+		{603DDB94-1AA0-4F9B-A0E8-C9A566B6F059}.Debug|x86.Deploy.0 = Debug|x86
+		{603DDB94-1AA0-4F9B-A0E8-C9A566B6F059}.Release|ARM64.ActiveCfg = Release|ARM64
+		{603DDB94-1AA0-4F9B-A0E8-C9A566B6F059}.Release|ARM64.Build.0 = Release|ARM64
+		{603DDB94-1AA0-4F9B-A0E8-C9A566B6F059}.Release|ARM64.Deploy.0 = Release|ARM64
+		{603DDB94-1AA0-4F9B-A0E8-C9A566B6F059}.Release|x64.ActiveCfg = Release|x64
+		{603DDB94-1AA0-4F9B-A0E8-C9A566B6F059}.Release|x64.Build.0 = Release|x64
+		{603DDB94-1AA0-4F9B-A0E8-C9A566B6F059}.Release|x64.Deploy.0 = Release|x64
+		{603DDB94-1AA0-4F9B-A0E8-C9A566B6F059}.Release|x86.ActiveCfg = Release|x86
+		{603DDB94-1AA0-4F9B-A0E8-C9A566B6F059}.Release|x86.Build.0 = Release|x86
+		{603DDB94-1AA0-4F9B-A0E8-C9A566B6F059}.Release|x86.Deploy.0 = Release|x86
+		{AFAAD901-CA20-645E-C457-CC0440CF10A3}.Debug|ARM64.ActiveCfg = Debug
+		{AFAAD901-CA20-645E-C457-CC0440CF10A3}.Debug|x64.ActiveCfg = Debug
+		{AFAAD901-CA20-645E-C457-CC0440CF10A3}.Debug|x86.ActiveCfg = Debug
+		{AFAAD901-CA20-645E-C457-CC0440CF10A3}.Release|ARM64.ActiveCfg = Release
+		{AFAAD901-CA20-645E-C457-CC0440CF10A3}.Release|x64.ActiveCfg = Release
+		{AFAAD901-CA20-645E-C457-CC0440CF10A3}.Release|x86.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5F57E004-5DD7-4ADF-AADD-71583F97C26D}
+	EndGlobalSection
+EndGlobal

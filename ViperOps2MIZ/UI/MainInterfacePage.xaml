@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+**********************************************************************************************************************
+    
+MainInterfacePage.xaml : ui xaml for main interface page
+
+Copyright(C) 2025 ilominar/raven
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
+Public License as published by the Free Software Foundation, either version 3 of the License, or (at your
+option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
+implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+for more details.
+You should have received a copy of the GNU General Public License along with this program.  If not, see
+https://www.gnu.org/licenses/.
+
+**********************************************************************************************************************
+-->
+<Page
+    x:Class="ViperOps2MIZ.UI.MainInterfacePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ViperOps2MIZ.UI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+
+        <!-- style for editor title text in text blocks -->
+        <Style x:Key="EditorTitleTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalTextAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+    </Page.Resources>
+
+    <StackPanel Margin="12,12,12,12" Orientation="Vertical"
+                AllowDrop="True" DragOver="MainPanel_DragOver" Drop="MainPanel_Drop"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <!-- settings -->
+        <!--
+        <StackPanel Margin="0,0,0,0"  Orientation="Vertical">
+            <TextBlock Style="{StaticResource EditorTitleTextBlockStyle}">
+                Conversion Settings:
+            </TextBlock>
+            <CheckBox Margin="24,0,12,0">
+                Overwrite Airframe Groups in the Template .miz
+            </CheckBox>
+        </StackPanel>
+        -->
+
+        <!-- template .miz -->
+        <StackPanel Margin="0,12,0,12"  Orientation="Vertical">
+            <TextBlock Style="{StaticResource EditorTitleTextBlockStyle}">
+                DCS .miz Template:
+            </TextBlock>
+            <Grid Margin="24,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Margin="0,12,0,0" Grid.Row="0" Grid.Column="0" x:Name="uiTemplatePath"
+                         HorizontalAlignment="Stretch"
+                         IsEnabled="False"
+                         PlaceholderText="No Template .miz Selected"/>
+                <Button Margin="12,12,0,0" Grid.Row="0" Grid.Column="2" x:Name="uiBtnSelectTemplate"
+                        VerticalAlignment="Center"
+                        Click="BtnSelectTemplate_Click"
+                        ToolTipService.ToolTip="Selects the .miz template to use for conversion">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE838;"/>
+                </Button>
+            </Grid>
+        </StackPanel>
+
+        <!-- input .kml -->
+        <StackPanel Margin="0,12,0,12"  Orientation="Vertical">
+            <TextBlock Style="{StaticResource EditorTitleTextBlockStyle}">
+                ViperOps .kml File:
+            </TextBlock>
+            <Grid Margin="24,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Margin="0,12,0,0" Grid.Row="0" Grid.Column="0" x:Name="uiViperOpsPath"
+                         HorizontalAlignment="Stretch"
+                         IsEnabled="False"
+                         PlaceholderText="No ViperOps .kml File Selected"/>
+                <Button Margin="12,12,0,0" Grid.Row="0" Grid.Column="2" x:Name="uiBtnSelectViperOps"
+                        VerticalAlignment="Center"
+                        Click="BtnSelectViperOps_Click"
+                        ToolTipService.ToolTip="Selects the .kml file to use for conversion">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE838;"/>
+                </Button>
+            </Grid>
+        </StackPanel>
+
+        <!-- process -->
+        <Button Height="48" Margin="0,24,0,12" x:Name="uiBtnProcessKML"
+                VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                Click="BtnuiBtnProcessKML_Click">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="0,0,16,0" Style="{StaticResource EditorTitleTextBlockStyle}">
+                    Convert ViperOps .kml File Into DCS .miz
+                </TextBlock>
+                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE9F3;"/>
+            </StackPanel>
+        </Button>
+
+    </StackPanel>
+</Page>
