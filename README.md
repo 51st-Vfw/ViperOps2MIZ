@@ -148,7 +148,7 @@ SA-11 SAM, an SA-15 SHORADS, and a SCUD ground groups along with a C2 bunker sta
 
 Aircraft are positioned at their initial starting bases on the ramp as shown here,
 
-![](doc/images/dcs_me_air_templates.png)
+![](doc/images/dcs_me_air_tmplts.png)
 
 The two flights on the ramp are VENOM1 (selected) and VIPER1. These groups are placed in
 their desired starting location with a "takeoff" type and no waypoints. The name of the
