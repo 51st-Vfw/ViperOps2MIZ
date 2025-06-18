@@ -17,10 +17,11 @@
 //
 // ********************************************************************************************************************
 
+#define KML_IGNORE_FILE_ALT                                     // define to force all altitudes to 0
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Reflection.Emit;
 using System.Xml;
 
 namespace ViperOps2MIZ.Utility.Files
@@ -42,7 +43,11 @@ namespace ViperOps2MIZ.Utility.Files
             List<string> fields = [.. coordTuple.Split(",") ];
             Lon = double.Parse(fields[0]);
             Lat = double.Parse(fields[1]);
+#if KML_IGNORE_FILE_ALT
+            Alt = 0.0;
+#else
             Alt = double.Parse(fields[2]);
+#endif
         }
     }
 
