@@ -68,6 +68,16 @@ namespace ViperOps2MIZ.Utility.Files
     ///   - "/Document/Folder/Placemark/Point/name" defines the custom name of the object with
     ///     "/Document/Folder/Placemark/Point/coordinates" providing a coordinate tuple for the object.
     ///  
+    /// for bullseye, "/Document/Placemark" defines the location.
+    /// 
+    ///   - "/Document/Folder/Placemark/Point/name" is "Bullseye" for the bullseye
+    ///     "/Document/Folder/Placemark/Point/coordinates" providing a coordinate tuple for the bullseye.
+    ///
+    /// for unassigned points, "/Document/Placemark" defines the location.
+    /// 
+    ///   - "/Document/Folder/Placemark/Point/name" is the name of the point.
+    ///     "/Document/Folder/Placemark/Point/coordinates" providing a coordinate tuple for the point.
+    ///
     /// all objects except "Bullseye" can have more than one placemark.
     /// </summary>
     public partial class FileKml
@@ -81,6 +91,8 @@ namespace ViperOps2MIZ.Utility.Files
         public string Path { get; private set; }
 
         public CoordKml? Bullseye { get; private set; }
+
+        public List<CoordKml> Markers { get; private set; }
 
         public List<CoordKml> EWRs { get; private set; }
 
@@ -101,6 +113,7 @@ namespace ViperOps2MIZ.Utility.Files
             Path = path;
 
             Bullseye = null;
+            Markers = [ ];
             EWRs = [ ];
             SAMs = [ ];
             EnemyAFBs = [ ];
@@ -124,7 +137,7 @@ namespace ViperOps2MIZ.Utility.Files
         /// converts a list of { name, kml coordinate tuple } key/value pairs into a list of CoordKml instaces with
         /// Name matching the key and Alt/Lat/Lon extracted from the coordinate tuple.
         /// </summary>
-        private List<CoordKml> DataToCoordList(List<KeyValuePair<string, string>> input)
+        private static List<CoordKml> DataToCoordList(List<KeyValuePair<string, string>> input)
         {
             List<CoordKml> list = [ ];
             foreach (KeyValuePair<string, string> kvp in input)
@@ -221,6 +234,13 @@ namespace ViperOps2MIZ.Utility.Files
                     // NOTE: bullseye returns with a name of "", we'll change it to something useful here.
                     //
                     Bullseye = new CoordKml("BULLS", points[0].Value);
+                }
+                else if (string.Equals(node.Name, "Placemark"))
+                {
+                    List<KeyValuePair<string, string>> points = ExtractPointsFromPlacemark(node);
+                    if (points.Count != 1)
+                        throw new Exception("Found incorrectly formatted unassigned marker element?");
+                    Markers.Add(new CoordKml(nodeNameChild, points[0].Value));
                 }
                 else if (string.Equals(node.Name, "Folder") && string.Equals(nodeNameChild, "SAM"))
                 {
