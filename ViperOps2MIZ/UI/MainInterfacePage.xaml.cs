@@ -22,10 +22,10 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Diagnostics;
 using System.IO;
+using ViperOps2MIZ.Utility.Files;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Pickers;
 using Windows.Storage;
-using ViperOps2MIZ.Utility.Files;
 using WinRT.Interop;
 
 namespace ViperOps2MIZ.UI
@@ -75,13 +75,13 @@ namespace ViperOps2MIZ.UI
         /// <summary>
         /// TODO - document
         /// </summary>
-        private static async void ConvertKML2MIZ(string pathKml, string pathMiz)
+        private async void ConvertKML2MIZ(string pathKml, string pathMiz)
         {
             FileSavePicker picker = new()
             {
                 SettingsIdentifier = "ViperOps2MIZ_SelectTemplate",
                 SuggestedStartLocation = PickerLocationId.Desktop,
-                SuggestedFileName = "TODO.miz"
+                SuggestedFileName = $"{Path.GetFileNameWithoutExtension(pathKml)}.miz"
             };
             picker.FileTypeChoices.Add("DCS Mission", [".miz"]);
             var hwnd = WindowNative.GetWindowHandle((Application.Current as ViperOps2MIZ.App)?.Window);
@@ -97,11 +97,29 @@ namespace ViperOps2MIZ.UI
                     FileMiz miz = new(pathMiz);
                     miz.BuildMissionWithKml(kml);
                     miz.SaveMission(file.Path);
+
+                    ContentDialog dialog = new ContentDialog()
+                    {
+                        XamlRoot = Content.XamlRoot,
+                        Title = "Success",
+                        Content = $"Mission construction successful. Saved to {file.Path}",
+                        PrimaryButtonText = "OK",
+                        DefaultButton = ContentDialogButton.Primary
+                    };
+                    ContentDialogResult result = await dialog.ShowAsync(ContentDialogPlacement.Popup);
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
-                    // TODO: report error through ui?
+                    ContentDialog dialog = new ContentDialog()
+                    {
+                        XamlRoot = Content.XamlRoot,
+                        Title = "Bummer...",
+                        Content = $"There was an error while processing files: {ex.Message}",
+                        PrimaryButtonText = "OK",
+                        DefaultButton = ContentDialogButton.Primary
+                    };
+                    ContentDialogResult result = await dialog.ShowAsync(ContentDialogPlacement.Popup);
                 }
             }
         }
