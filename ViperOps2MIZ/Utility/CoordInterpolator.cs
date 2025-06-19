@@ -72,12 +72,7 @@ namespace ViperOps2MIZ.Utility
             public bool IsSouthHemi;
 
             public TheaterInfo(double dx, double dz, int zone, bool isSouthHemi)
-            {
-                Dx = dx;
-                Dz = dz;
-                Zone = zone;
-                IsSouthHemi = isSouthHemi;
-            }
+                => (Dx, Dz, Zone, IsSouthHemi) = (dx, dz, zone, isSouthHemi);
         }
 
         // ------------------------------------------------------------------------------------------------------------
@@ -123,11 +118,7 @@ namespace ViperOps2MIZ.Utility
         // ------------------------------------------------------------------------------------------------------------
 
         public CoordInterpolator(double sma = SM_A_DEFAULT, double smb = SM_B_DEFAULT)
-        {
-            UTMScaleFactor = 1.0;
-            SMa = sma;
-            SMb = smb;
-        }
+            => (UTMScaleFactor, SMa, SMb) = (1.0, sma, smb);
 
         // ------------------------------------------------------------------------------------------------------------
         //
@@ -138,17 +129,14 @@ namespace ViperOps2MIZ.Utility
         // convert lat/lon coordinates (in decimal degrees) in a particular theater to x/z planar dcs map coordinates.
         // returns null if the theater is unknown.
         //
-        public CoordXZ LLtoXZ(string theater, double lat, double lon)
+        public CoordXZ? LLtoXZ(string theater, double lat, double lon)
         {
-            if (_theaterInfo.ContainsKey(theater))
+            if (_theaterInfo.TryGetValue(theater, out TheaterInfo? info))
             {
-                TheaterInfo info = _theaterInfo[theater];
                 CoordXZ xz = LatLonToUTMXY(lat * (Math.PI / 180.0), lon * (Math.PI / 180.0), info.Zone);
                 //
                 // NOTE: mind the coordinate flip here: x/y in UTM are z/x in DCS
                 //
-                //xz.X -= info.Dz;
-                //xz.Z -= info.Dx;
                 CoordXZ xzDCS = new() {
                     X = xz.Z - info.Dx,
                     Z = xz.X - info.Dz
@@ -170,11 +158,10 @@ namespace ViperOps2MIZ.Utility
         // convert x/z planar dcs map coordinates in a particular theater to lat/lon coordinates (in decimal
         // degrees). returns null if the theater is unknown.
         //
-        public CoordLL XZtoLL(string theater, double x, double z)
+        public CoordLL? XZtoLL(string theater, double x, double z)
         {
-            if (_theaterInfo.ContainsKey(theater))
+            if (_theaterInfo.TryGetValue(theater, out TheaterInfo? info))
             {
-                TheaterInfo info = _theaterInfo[theater];
                 //
                 // NOTE: mind the coordinate flip here: x/y in UTM are z/x in DCS
                 //
@@ -313,7 +300,7 @@ namespace ViperOps2MIZ.Utility
             // Precalculate t
             double t = Math.Tan(phi);
             double t2 = t * t;
-            double tmp = t2 * t2 * t2 - Math.Pow(t, 6.0);
+            double _ = t2 * t2 * t2 - Math.Pow(t, 6.0);
 
             // Precalculate l
             double l = lambda1 - lambda0;
