@@ -22,7 +22,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using ViperOps2MIZ.Utility.LsonLib;
 
 namespace ViperOps2MIZ.Utility.Files
@@ -38,12 +37,12 @@ namespace ViperOps2MIZ.Utility.Files
         private class GroupInfo
         {
             public LsonDict Dict;
+            public string Type;
             public int Country;
             public int Group;
-            public int GroupMax;
 
-            public GroupInfo(LsonDict d, int ic = 0, int ig = 0, int igm = 0)
-                => (Dict, Country, Group, GroupMax) = (d, ic, ig, igm);
+            public GroupInfo(LsonDict d, string t, int ic = 0, int ig = 0)
+                => (Dict, Type, Country, Group) = (d, t, ic, ig);
         }
 
         private const string POINT_LUA = "point = {\n" +
@@ -55,17 +54,17 @@ namespace ViperOps2MIZ.Utility.Files
                                          "    [\"id\"] = \"ComboTask\",\n" +
                                          "    [\"params\"] = {\n" +
                                          "      [\"tasks\"] = { },\n" +
-										 "	  },\n" +
-										 "  },\n" +
+                                         "	  },\n" +
+                                         "  },\n" +
                                          "  [\"name\"] = \"Untitled\",\n" +
                                          "  [\"type\"] = \"Turning Point\",\n" +
-										 "  [\"ETA\"] = 0.0,\n" +
-										 "  [\"ETA_locked\"] = false,\n" +
-										 "  [\"y\"] = 0.0,\n" +
-										 "  [\"x\"] = 0.0,\n" +
-										 "  [\"speed_locked\"] = true,\n" +
-										 "  [\"formation_template\"] = \"\",\n" +
-										 "}\n";
+                                         "  [\"ETA\"] = 0.0,\n" +
+                                         "  [\"ETA_locked\"] = false,\n" +
+                                         "  [\"y\"] = 0.0,\n" +
+                                         "  [\"x\"] = 0.0,\n" +
+                                         "  [\"speed_locked\"] = true,\n" +
+                                         "  [\"formation_template\"] = \"\",\n" +
+                                         "}\n";
 
         // ------------------------------------------------------------------------------------------------------------
         //
@@ -94,7 +93,7 @@ namespace ViperOps2MIZ.Utility.Files
         public FileMiz(string pathIn)
         {
             PathIn = pathIn;
-            Parsed = [ ];
+            Parsed = [];
             Theater = "unknown";
             IsUpdated = false;
             GroupId = 5000;
@@ -135,7 +134,7 @@ namespace ViperOps2MIZ.Utility.Files
         /// </summary>
         private LsonDict? DictAtPath(string path, LsonDict? root = null)
         {
-            List<string> elements = [.. path.Split('/') ];
+            List<string> elements = [.. path.Split('/')];
             LsonDict? dict = root;
             if (string.IsNullOrEmpty(elements[0]))
             {
@@ -157,7 +156,7 @@ namespace ViperOps2MIZ.Utility.Files
         /// </summary>
         private Dictionary<int, LsonDict> DictArrayAtPath(string path, LsonDict? root = null)
         {
-            Dictionary<int, LsonDict> list = [ ];
+            Dictionary<int, LsonDict> list = [];
             LsonDict? dict = DictAtPath(path, root);
             if (dict != null)
                 foreach (KeyValuePair<LsonValue, LsonValue> kvp in dict)
@@ -165,32 +164,25 @@ namespace ViperOps2MIZ.Utility.Files
             return list;
         }
 
-
         /// <summary>
-        /// TODO: document
+        /// catalogs all groups from /mission/coalition/{coalition}/country/*/{type}/group in the parsed lson
+        /// returning a dictionay that maps the group's name onto a GroupInfo for the group.
         /// </summary>
-        private Dictionary<string, GroupInfo> BuildGroupMap(string coalition, string type)
+        private Dictionary<string, GroupInfo> BuildGroupMap(string coalition, List<string> types)
         {
-            Dictionary<string, GroupInfo> map = [ ];
-
-            // /mission/coalition/<coa>/country/<i>/vehicle/group/<j>/name
-
-            // want max(j) for (<coa>, <i>)
-
-            Dictionary<int, LsonDict> countries = DictArrayAtPath($"/mission/coalition/{coalition}/country");
-            foreach (KeyValuePair<int, LsonDict> kvpCountry in countries)
-            {
-                Dictionary<int, LsonDict> groups = DictArrayAtPath($"{type}/group", kvpCountry.Value);
-                int max = 0;
-                foreach (int index in groups.Keys)
-                    max = Math.Max(max, index);
-                foreach (KeyValuePair<int, LsonDict> kvpGroup in groups)
+            Dictionary<string, GroupInfo> map = [];
+            foreach (string type in types) {
+                Dictionary<int, LsonDict> countries = DictArrayAtPath($"/mission/coalition/{coalition}/country");
+                foreach (KeyValuePair<int, LsonDict> kvpCountry in countries)
                 {
-                    string name = kvpGroup.Value["name"].GetString();
-                    map[name] = new GroupInfo(kvpGroup.Value, kvpCountry.Key, kvpGroup.Key, max);
+                    Dictionary<int, LsonDict> groups = DictArrayAtPath($"{type}/group", kvpCountry.Value);
+                    foreach (KeyValuePair<int, LsonDict> kvpGroup in groups)
+                    {
+                        string name = kvpGroup.Value["name"].GetString();
+                        map[name] = new GroupInfo(kvpGroup.Value, type, kvpCountry.Key, kvpGroup.Key);
+                    }
                 }
             }
-
             return map;
         }
 
@@ -199,84 +191,103 @@ namespace ViperOps2MIZ.Utility.Files
         /// </summary>
         private void UpdateBullseye(CoordKml bullsCoord)
         {
-            CoordXZ xz = CoordInterpolator.Instance.LLtoXZ(Theater, bullsCoord.Lat, bullsCoord.Lon);
+            LsonDict bullseye = DictAtPath("/mission/coalition/blue/bullseye")
+                                ?? throw new Exception("Unable to find bullseye in mission.");
+            CoordXZ xz = CoordInterpolator.Instance.LLtoXZ(Theater, bullsCoord.Lat, bullsCoord.Lon)
+                         ?? throw new Exception($"Mission theater {Theater} is not supported.");
             //
             // NOTE: coordinate mapping here xz.X --> bullseye.x, xz.Z --> bullseye.y
             //
-            LsonDict? bullseye = DictAtPath("/mission/coalition/blue/bullseye");
-            if (bullseye != null )
+            bullseye["x"] = xz.X;
+            bullseye["y"] = xz.Z;
+        }
+
+        /// <summary>
+        /// update top-level name, lateActivation, groupId, x, and y properties of a group.
+        /// </summary>
+        private static void UpdateGroupTopLevel(LsonDict group, CoordXZ xzNew, int groupId)
+        {
+            group["name"] = $"{group["name"].GetString()}#V2M.{groupId}";
+            group["groupId"] = groupId;
+            group["x"] = xzNew.X;
+            group["y"] = xzNew.Z;
+        }
+
+        /// <summary>
+        /// update route/points of a group. we remove all points except points[1] and update the alt, x, and y
+        /// properties of points[1].
+        /// </summary>
+        private static void UpdateGroupRoutePoints(LsonDict group, CoordXZ xzNew, double alt)
+        {
+            LsonDict point1 = group["route"].GetDict()["points"].GetDict()[1].GetDict()
+                              ?? throw new Exception($"Unable to find points[1] in group.");
+
+            point1["alt"] = alt;
+            point1["x"] = xzNew.X;
+            point1["y"] = xzNew.Z;
+
+            group["route"].GetDict().Remove("points");
+            group["route"].Add("points", new LsonDict());
+            group["route"].GetDict()["points"].GetDict().Add(1, point1);
+        }
+
+        /// <summary>
+        /// update units of a group. we update the name, x, y, and unitId properties of each unit.
+        /// </summary>
+        private void UpdateGroupUnits(LsonDict group, CoordXZ xzNew, CoordXZ xzTmplt, int groupId)
+        {
+            foreach (KeyValuePair<LsonValue, LsonValue> kvp in group["units"].GetDict())
             {
-                bullseye["x"] = xz.X;
-                bullseye["y"] = xz.Z;
+                LsonDict unit = kvp.Value.GetDict();
+                unit["name"] = $"V2M {unit["name"].GetString()}#V2M.{groupId}";
+                unit["x"] = xzNew.X + (unit["x"].GetDouble() - xzTmplt.X);
+                unit["y"] = xzNew.Z + (unit["y"].GetDouble() - xzTmplt.Z);
+                unit["unitId"] = UnitId++;
             }
         }
 
         /// <summary>
         /// TODO: document
         /// </summary>
-        private void AddRedVehicleGroup(GroupInfo info, CoordKml coord, int numRedGroupAdded)
+        private CoordXZ AddRedGroup(GroupInfo info, CoordKml llaNew, CoordXZ xzBaseTmplt)
         {
-            CoordXZ xz = CoordInterpolator.Instance.LLtoXZ(Theater, coord.Lat, coord.Lon);
+            LsonDict groupList = DictAtPath($"/mission/coalition/red/country/{info.Country}/{info.Type}/group")
+                                 ?? throw new Exception($"Unable to find group for {info.Type} in country {info.Country}");
+            LsonDict newGroup = DeepCopy(groupList[info.Group].GetDict())
+                                ?? throw new Exception($"Unable to copy template group");
 
-            LsonDict? groupList = DictAtPath($"/mission/coalition/red/country/{info.Country}/vehicle/group");
-            if (groupList != null)
+            CoordXZ xzTmplt = new()
             {
-                LsonDict? newGroup = DeepCopy(groupList[info.Group].GetDict());
-                if (newGroup != null)
-                {
-                    double x = newGroup["x"].GetDouble();
-                    double y = newGroup["y"].GetDouble();
-
-                    groupList.Add(info.GroupMax + numRedGroupAdded, newGroup);
-
-                    // update top-level group properties.
-                    //
-                    // name           => set name to "<group_name>#V2M.<n>" to make unique group name
-                    // lateActivation => force "false"
-                    // groupId        => update with unique group id
-                    // x, y           => update to kml-specified location
-                    //
-                    newGroup["name"] = $"{newGroup["name"].GetString()}#V2M.{numRedGroupAdded}";
-                    newGroup["lateActivation"] = false;
-                    newGroup["groupId"] = GroupId++;
-                    newGroup["x"] = xz.X;
-                    newGroup["y"] = xz.Z;
-
-                    // update "route" property by removing "spans" and all but the first "points".
-                    //
-                    // [spans]               => all spans deleted
-                    // [points][1] x, y, alt => update to kml-specified location
-                    //
-                    newGroup["route"].GetDict().Remove("spans");
-                    newGroup["route"].Add("spans", new LsonDict());
-
-                    LsonDict? point1 = newGroup["route"].GetDict()["points"].GetDict()[1].GetDict();
-                    newGroup["route"].GetDict().Remove("points");
-                    newGroup["route"].Add("points", new LsonDict());
-                    if (point1 != null)
-                    {
-                        point1["alt"] = coord.Alt;
-                        point1["x"] = xz.X;
-                        point1["y"] = xz.Z;
-                        newGroup["route"].GetDict()["points"].GetDict().Add(1, point1);
-                    }
-
-                    // update all units in group
-                    //
-                    // name   => set name to "<unit_name>#V2M.<n>" to make unique unit name
-                    // unitId => update with unique unit id
-                    // x, y   => update to kml-specified location, maintaining relative position within group
-                    //
-                    foreach (KeyValuePair<LsonValue, LsonValue> kvp in newGroup["units"].GetDict())
-                    {
-                        LsonDict newUnit = kvp.Value.GetDict();
-                        newUnit["name"] = $"V2M {newUnit["name"].GetString()}#{numRedGroupAdded}";
-                        newUnit["x"] = xz.X + (newUnit["x"].GetDouble() - x);
-                        newUnit["y"] = xz.Z + (newUnit["y"].GetDouble() - y);
-                        newUnit["unitId"] = UnitId++;
-                    }
-                }
+                X = newGroup["x"].GetDouble(),
+                Z = newGroup["y"].GetDouble()
+            };
+            CoordXZ xzNew = CoordInterpolator.Instance.LLtoXZ(Theater, llaNew.Lat, llaNew.Lon)
+                            ?? throw new Exception($"Mission theater {Theater} is not supported.");
+            if ((xzBaseTmplt.X != 0.0) || (xzBaseTmplt.Z != 0.0))
+            {
+                xzNew.X += (xzTmplt.X - xzBaseTmplt.X);
+                xzNew.Z += (xzTmplt.Z - xzBaseTmplt.Z);
             }
+            int index = 1;
+            foreach (LsonValue key in groupList.Keys)
+                index = Math.Max(index, key.GetInt() + 1);
+            groupList.Add(index, newGroup);
+
+            UpdateGroupTopLevel(newGroup, xzNew, GroupId);
+            UpdateGroupUnits(newGroup, xzNew, xzTmplt, GroupId);
+            UpdateGroupRoutePoints(newGroup, xzNew, llaNew.Alt);
+
+            if (string.Equals(info.Type, "vehicle"))
+            {
+                newGroup["lateActivation"] = false;
+
+                newGroup["route"].GetDict().Remove("spans");
+                newGroup["route"].Add("spans", new LsonDict());
+            }
+
+            GroupId++;
+
+            return xzTmplt;
         }
 
         /// <summary>
@@ -288,8 +299,9 @@ namespace ViperOps2MIZ.Utility.Files
             int iStpt = 2;
             foreach (CoordKml coord in stpts)
             {
-                CoordXZ xz = CoordInterpolator.Instance.LLtoXZ(Theater, coord.Lat, coord.Lon);
-                
+                CoordXZ xz = CoordInterpolator.Instance.LLtoXZ(Theater, coord.Lat, coord.Lon)
+                             ?? throw new Exception($"Mission theater {Theater} is not supported.");
+
                 LsonDict point = Deserialize(POINT_LUA, "point");
                 if (string.IsNullOrEmpty(coord.Name))
                     point.Remove("name");
@@ -320,19 +332,29 @@ namespace ViperOps2MIZ.Utility.Files
 
             // TODO: anything to do for enemy airbases?
 
-            Dictionary<string, GroupInfo> groupsRed = BuildGroupMap("red", "vehicle");
-            int numRedGroupAdded = 1;
-            foreach (CoordKml ewr in kml.EWRs)
-                if (!string.IsNullOrEmpty(ewr.Name) && groupsRed.ContainsKey(ewr.Name))
-                    AddRedVehicleGroup(groupsRed[ewr.Name], ewr, numRedGroupAdded++);
-            foreach (CoordKml sam in kml.SAMs)
-                if (!string.IsNullOrEmpty(sam.Name) && groupsRed.ContainsKey(sam.Name))
-                    AddRedVehicleGroup(groupsRed[sam.Name], sam, numRedGroupAdded++);
+            Dictionary<string, GroupInfo> groupsRed = BuildGroupMap("red", [ "vehicle", "static" ]);
+            List<CoordKml> coords = kml.EWRs;
+            coords.AddRange(kml.SAMs);
+            coords.AddRange(kml.Markers);
+            foreach (CoordKml coord in coords)
+                if (!string.IsNullOrEmpty(coord.Name) && groupsRed.TryGetValue(coord.Name, out GroupInfo? info))
+                {
+                    CoordXZ xzTmplt = AddRedGroup(info, coord, new CoordXZ());
+                    foreach (string key in groupsRed.Keys)
+                        if (!string.Equals(key, coord.Name) &&
+                             string.Equals(groupsRed[key].Type, "static") &&
+                            key.StartsWith($"{coord.Name} SG-"))
+                        {
+                            // coord = offset between template coordinates of unit and static
+                            // TODO: need to adjust based on offset from template center of related group
+                            AddRedGroup(groupsRed[key], coord, xzTmplt);
+                        }
+                }
 
-            Dictionary<string, GroupInfo> groupsBlue = BuildGroupMap("blue", "plane");
+            Dictionary<string, GroupInfo> groupsBlue = BuildGroupMap("blue", [ "plane" ]);
             foreach (KeyValuePair<string, List<CoordKml>> kvp in kml.Jets)
-                if (groupsBlue.ContainsKey(kvp.Key))
-                    AddBlueJetSteerpoints(groupsBlue[kvp.Key], kvp.Value);
+                if (groupsBlue.TryGetValue(kvp.Key, out GroupInfo? info))
+                    AddBlueJetSteerpoints(info, kvp.Value);
 
             IsUpdated = true;
         }
