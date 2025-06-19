@@ -98,7 +98,7 @@ namespace ViperOps2MIZ.UI
                     miz.BuildMissionWithKml(kml);
                     miz.SaveMission(file.Path);
 
-                    ContentDialog dialog = new ContentDialog()
+                    ContentDialog dialog = new()
                     {
                         XamlRoot = Content.XamlRoot,
                         Title = "Success",
@@ -106,12 +106,12 @@ namespace ViperOps2MIZ.UI
                         PrimaryButtonText = "OK",
                         DefaultButton = ContentDialogButton.Primary
                     };
-                    ContentDialogResult result = await dialog.ShowAsync(ContentDialogPlacement.Popup);
+                    await dialog.ShowAsync(ContentDialogPlacement.Popup);
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
-                    ContentDialog dialog = new ContentDialog()
+                    ContentDialog dialog = new()
                     {
                         XamlRoot = Content.XamlRoot,
                         Title = "Bummer...",
@@ -119,7 +119,7 @@ namespace ViperOps2MIZ.UI
                         PrimaryButtonText = "OK",
                         DefaultButton = ContentDialogButton.Primary
                     };
-                    ContentDialogResult result = await dialog.ShowAsync(ContentDialogPlacement.Popup);
+                    await dialog.ShowAsync(ContentDialogPlacement.Popup);
                 }
             }
         }

@@ -277,7 +277,7 @@ namespace ViperOps2MIZ.Utility.Files
                     int nStpt = 1;
                     foreach (string point in routePoints)
                     {
-                        string stptName = (labelMap.ContainsKey(point)) ? labelMap[point] : $"SP{nStpt}";
+                        string stptName = labelMap.TryGetValue(point, out string? name) ? name : $"SP{nStpt}";
                         stpts.Add(new CoordKml(stptName, point));
                         nStpt++;
                     }
