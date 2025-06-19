@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+               <kml xmlns="http://www.opengis.net/kml/2.2">
+               <Document>
+               <name>TronView_Test</name>
+               <description>Converted from JSON</description><Folder>
+              <name>BLUE VENOM1</name>
+          <Placemark>
+              <name>Marshall</name>
+              <Point>
+                  <coordinates>-115.02275827613535,36.51365880729369,1290.7829458241993</coordinates>
+              </Point>
+              
+              <Style>
+                  <IconStyle>
+                      <Icon>
+                          <href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href>
+                      </Icon>
+                  </IconStyle>
+              </Style>
+              
+          </Placemark>
+  
+          <Placemark>
+              <name>TGT SAM</name>
+              <Point>
+                  <coordinates>-114.62708808741867,36.74090323331034,504.4038391113281</coordinates>
+              </Point>
+              
+              <Style>
+                  <IconStyle>
+                      <Icon>
+                          <href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href>
+                      </Icon>
+                  </IconStyle>
+              </Style>
+              
+          </Placemark>
+  
+          <Placemark>
+              <name>TGT EWR</name>
+              <Point>
+                  <coordinates>-114.43498983979227,36.73939031620093,615.2217407226562</coordinates>
+              </Point>
+              
+              <Style>
+                  <IconStyle>
+                      <Icon>
+                          <href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href>
+                      </Icon>
+                  </IconStyle>
+              </Style>
+              
+          </Placemark>
+  
+          <Placemark>
+              <name>Arrival</name>
+              <Point>
+                  <coordinates>-114.8725105510343,36.34020586891446,954.5799630570847</coordinates>
+              </Point>
+              
+              <Style>
+                  <IconStyle>
+                      <Icon>
+                          <href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href>
+                      </Icon>
+                  </IconStyle>
+              </Style>
+              
+          </Placemark>
+  
+          <Placemark>
+              <name>Homeplate</name>
+              <Point>
+                  <coordinates>-115.03741263801912,36.23331032707926,560.5810739693654</coordinates>
+              </Point>
+              
+              <Style>
+                  <IconStyle>
+                      <Icon>
+                          <href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href>
+                      </Icon>
+                  </IconStyle>
+              </Style>
+              
+          </Placemark>
+   <Placemark>
+              <name>BLUE VENOM1</name>
+              <Style>
+                  <LineStyle>
+                      <color>fffe1390</color>
+                      <width>2</width>
+                      </LineStyle>
+                 </Style>
+                 <LineString>
+                 <tessellate>1</tessellate>
+                 <coordinates>-115.02275827613535,36.51365880729369,1290.7829458241993 -114.62708808741867,36.74090323331034,504.4038391113281 -114.43498983979227,36.73939031620093,615.2217407226562 -114.8725105510343,36.34020586891446,954.5799630570847 -115.03741263801912,36.23331032707926,560.5810739693654 </coordinates>
+                 </LineString>
+                 </Placemark></Folder><Folder>
+              <name>BLUE VIPER1</name>
+          <Placemark>
+              <name>Marshall</name>
+              <Point>
+                  <coordinates>-114.8753082208101,36.41949988893822,611.4904174804688</coordinates>
+              </Point>
+              
+              <Style>
+                  <IconStyle>
+                      <Icon>
+                          <href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href>
+                      </Icon>
+                  </IconStyle>
+              </Style>
+              
+          </Placemark>
+  
+          <Placemark>
+              <name>IP</name>
+              <Point>
+                  <coordinates>-114.61247559176694,36.481225372016944,758.1501290173434</coordinates>
+              </Point>
+              
+              <Style>
+                  <IconStyle>
+                      <Icon>
+                          <href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href>
+                      </Icon>
+                  </IconStyle>
+              </Style>
+              
+          </Placemark>
+  
+          <Placemark>
+              <name>TGT SCUD</name>
+              <Point>
+                  <coordinates>-114.44190715443972,36.57337302261076,421.126003869733</coordinates>
+              </Point>
+              
+              <Style>
+                  <IconStyle>
+                      <Icon>
+                          <href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href>
+                      </Icon>
+                  </IconStyle>
+              </Style>
+              
+          </Placemark>
+  
+          <Placemark>
+              <name>TGT C2 Bunker</name>
+              <Point>
+                  <coordinates>-114.43911775946617,36.565097986338166,413.75589224160734</coordinates>
+              </Point>
+              
+              <Style>
+                  <IconStyle>
+                      <Icon>
+                          <href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href>
+                      </Icon>
+                  </IconStyle>
+              </Style>
+              
+          </Placemark>
+  
+          <Placemark>
+              <name>Egress</name>
+              <Point>
+                  <coordinates>-114.34020996093751,36.46326301239129,369.0206422463234</coordinates>
+              </Point>
+              
+              <Style>
+                  <IconStyle>
+                      <Icon>
+                          <href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href>
+                      </Icon>
+                  </IconStyle>
+              </Style>
+              
+          </Placemark>
+  
+          <Placemark>
+              <name>Arrival</name>
+              <Point>
+                  <coordinates>-114.87240848056891,36.34020586891446,950.1473915940554</coordinates>
+              </Point>
+              
+              <Style>
+                  <IconStyle>
+                      <Icon>
+                          <href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href>
+                      </Icon>
+                  </IconStyle>
+              </Style>
+              
+          </Placemark>
+  
+          <Placemark>
+              <name>Homeplate</name>
+              <Point>
+                  <coordinates>-115.03740686194953,36.23332150397883,560.6438018349829</coordinates>
+              </Point>
+              
+              <Style>
+                  <IconStyle>
+                      <Icon>
+                          <href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href>
+                      </Icon>
+                  </IconStyle>
+              </Style>
+              
+          </Placemark>
+   <Placemark>
+              <name>BLUE VIPER1</name>
+              <Style>
+                  <LineStyle>
+                      <color>ff21d37e</color>
+                      <width>2</width>
+                      </LineStyle>
+                 </Style>
+                 <LineString>
+                 <tessellate>1</tessellate>
+                 <coordinates>-114.8753082208101,36.41949988893822,611.4904174804688 -114.61247559176694,36.481225372016944,758.1501290173434 -114.44190715443972,36.57337302261076,421.126003869733 -114.43911775946617,36.565097986338166,413.75589224160734 -114.34020996093751,36.46326301239129,369.0206422463234 -114.87240848056891,36.34020586891446,950.1473915940554 -115.03740686194953,36.23332150397883,560.6438018349829 </coordinates>
+                 </LineString>
+                 </Placemark></Folder>
+          <Placemark>
+              <name>RED_t C2 Bunker</name>
+              <Point>
+                  <coordinates>-114.43911775946617,36.56509690918915,413.7433925514544</coordinates>
+              </Point>
+              
+              <Style>
+                  <IconStyle>
+                      <Icon>
+                          <href>https://maps.google.com/mapfiles/kml/pal4/icon52.png</href>
+                      </Icon>
+                  </IconStyle>
+              </Style>
+              
+          </Placemark>
+  
+          <Placemark>
+              <name>RED_t SCUD</name>
+              <Point>
+                  <coordinates>-114.44190223822153,36.57340071386677,421.1432232871174</coordinates>
+              </Point>
+              
+              <Style>
+                  <IconStyle>
+                      <Icon>
+                          <href>https://maps.google.com/mapfiles/kml/pal4/icon52.png</href>
+                      </Icon>
+                  </IconStyle>
+              </Style>
+              
+          </Placemark>
+  <Folder>
+                      <name>SAM</name>
+                      
+          <Placemark>
+              <name>RED_t SA15</name>
+              <Point>
+                  <coordinates>-114.42313361091932,36.70032157734162,615.2446538351227</coordinates>
+              </Point>
+              
+              <Style>
+                  <IconStyle>
+                      <Icon>
+                          <href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href>
+                      </Icon>
+                  </IconStyle>
+              </Style>
+              
+          </Placemark>
+  
+          <Placemark>
+              <name>RED_t SA15</name>
+              <Point>
+                  <coordinates>-114.6335533946421,36.73514793030202,532.94384765625</coordinates>
+              </Point>
+              
+              <Style>
+                  <IconStyle>
+                      <Icon>
+                          <href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href>
+                      </Icon>
+                  </IconStyle>
+              </Style>
+              
+          </Placemark>
+  
+          <Placemark>
+              <name>RED_t SA11</name>
+              <Point>
+                  <coordinates>-114.62705425551951,36.74093395927616,504.38250732421875</coordinates>
+              </Point>
+              
+              <Style>
+                  <IconStyle>
+                      <Icon>
+                          <href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href>
+                      </Icon>
+                  </IconStyle>
+              </Style>
+              
+          </Placemark>
+  </Folder>
+            <Folder>
+                      <name>EW Radar</name>
+                      
+          <Placemark>
+              <name>RED_t EWR 55G6</name>
+              <Point>
+                  <coordinates>-114.43498341156999,36.73937978594467,615.2200049162371</coordinates>
+              </Point>
+              
+              <Style>
+                  <IconStyle>
+                      <Icon>
+                          <href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href>
+                      </Icon>
+                  </IconStyle>
+              </Style>
+              
+          </Placemark>
+  </Folder>
+            
+          <Placemark>
+              <name>Bullseye</name>
+              <Point>
+                  <coordinates>-114.42031879690724,36.31256212895479,362.74468994140625</coordinates>
+              </Point>
+              
+              <Style>
+                  <IconStyle>
+                      <Icon>
+                          <href>http://maps.google.com/mapfiles/kml/shapes/target.png</href>
+                      </Icon>
+                  </IconStyle>
+              </Style>
+              
+          </Placemark>
+  </Document></kml>
